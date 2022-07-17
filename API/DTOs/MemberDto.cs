@@ -9,9 +9,12 @@ namespace API.DTOs
     public class MemberDto
     {
         public int Id { get; set; }
-        public string UserName { get; set; }
+
+        public string Username { get; set; }
+        // The age auto mapper is going to magically work this out for us based on the fact in our app user class we've got a property or a method inside here called GetAge.
         public int Age { get; set; }
         public string KnownAs { get; set; }
+        public string PhotoUrl { get; set; }
         public DateTime Created { get; set; }
         public DateTime LastActive { get; set; }
         public string Gender { get; set; }

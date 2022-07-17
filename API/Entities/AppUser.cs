@@ -24,6 +24,7 @@ namespace API.Entities
         public ICollection<Photo> Photos { get; set; }
         
         // please don't be creative on what we call this method because the Get in front of Age is pretty important for what we're going to do later.
+        // Now if auto mapper comes across a property where we get, it's going to run the code inside here to populate the name of the other side of this gets.
         public int GetAge()
         {
             return DateOfBirth.CalculateAge();

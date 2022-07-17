@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using API.Data;
+using API.Helpers;
 using API.Repositories;
 using API.Repositories.Impl;
 using API.Services;
@@ -20,6 +21,9 @@ namespace API.Extensions
         {
             services.AddScoped<ITokenService, TokenService>();
             services.AddScoped<IUserRepository, UserRepository>();
+            // Now we only have a single project, so we only have a single assembly of where these can be created.
+            // And this is enough for auto mapper to go ahead and find those profiles, the create maps that we created inside this class, and that's the configuration set up for auto mapper.
+            services.AddAutoMapper(typeof(AutoMapperProfiles).Assembly);
             services.AddDbContext<DataContext>(options => {
                 options.UseSqlite(config.GetConnectionString("DefaultConnection"));
             });
