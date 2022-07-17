@@ -59,9 +59,9 @@ namespace API.Middleware
             // Now by default, we want our JSON responses to go back in camel case.
             // So we're going to create some options to enable this because we need to serialize this response into a JSON response.
             var options = new JsonSerializerOptions{PropertyNamingPolicy = JsonNamingPolicy.CamelCase};
-
+            
             var json = JsonSerializer.Serialize(response, options);
-
+            
             await context.Response.WriteAsync(json);
             // And what we can do now is we can go back to our startup class and regardless of which mode we're running in, we're just going to use our middleware.
 

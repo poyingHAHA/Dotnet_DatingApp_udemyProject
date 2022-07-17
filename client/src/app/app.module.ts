@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import {HttpClientModule } from '@angular/common/http';
+import {HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -17,6 +17,7 @@ import { MessagesComponent } from './messages/messages.component';
 import { ToastrModule } from 'ngx-toastr';
 import { SharedModule } from './_modules/shared.module';
 import { TestErrorsComponent } from './errors/test-errors/test-errors.component';
+import { ErrorInterceptor } from './_interceptors/error.interceptor';
 
 @NgModule({
   declarations: [
@@ -38,7 +39,12 @@ import { TestErrorsComponent } from './errors/test-errors/test-errors.component'
     BrowserAnimationsModule,
     SharedModule
   ],
-  providers: [],
+  providers: [
+    // we're going to provide to the HTTP interceptors, We're going to tell it what class we're using.
+    // And then what we need to do is specify multi as true because we want to add this to the interceptors.
+    // We don't want to replace the ones that come with Angular, with our own interceptor.
+    {provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true},
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
