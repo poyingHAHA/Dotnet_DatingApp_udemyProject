@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using API.Extensions;
 
 namespace API.Entities
 {
@@ -20,5 +21,11 @@ namespace API.Entities
         public string Interests { get; set; }
         public string Country { get; set; }
         public ICollection<Photo> Photos { get; set; }
+        
+        // please don't be creative on what we call this method because the Get in front of Age is pretty important for what we're going to do later.
+        public int GetAge()
+        {
+            return DateOfBirth.CalculateAge();
+        }
     }
 }
