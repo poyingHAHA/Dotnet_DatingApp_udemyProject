@@ -22,6 +22,7 @@ namespace API.DTOs
         public string LookingFor { get; set; }
         public string Interests { get; set; }
         public string Country { get; set; }
+        public string City { get; set; }
         // instead of using the photo and returning because this we know this is going to give us a problem.
         // What we'll do is we'll create a photoDto.
         public ICollection<PhotoDto> Photos { get; set; }

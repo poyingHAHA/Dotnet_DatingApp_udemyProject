@@ -21,6 +21,7 @@ namespace API.Entities
         public string LookingFor { get; set; }
         public string Interests { get; set; }
         public string Country { get; set; }
+        public string City { get; set; }
         public ICollection<Photo> Photos { get; set; }
         
         // In order for Mapper to go in, retrieve this, it's got to go and get the appUser.
