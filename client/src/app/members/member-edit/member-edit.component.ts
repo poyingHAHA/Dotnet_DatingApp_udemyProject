@@ -1,6 +1,6 @@
 import { take } from 'rxjs/operators';
 import { Member } from './../../_models/member';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, HostListener, OnInit, ViewChild } from '@angular/core';
 import { User } from 'src/app/_models/user';
 import { AccountService } from 'src/app/_services/account.service';
 import { MembersService } from 'src/app/_services/members.service';
@@ -17,6 +17,13 @@ export class MemberEditComponent implements OnInit {
   @ViewChild('editForm') editForm: NgForm;
   member: Member;
   user: User;
+  //what this allows us to do is access our browser events and the browser events that we want to access is the window:beforeunload.
+  // 
+  @HostListener('window:beforeunload', ['$event']) unloadNotification($event: any){
+    if(this.editForm.dirty){
+      $event.returnValue = true;
+    }
+  }
 
   constructor(
     private accountService: AccountService,
