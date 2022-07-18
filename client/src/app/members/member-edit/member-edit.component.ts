@@ -18,7 +18,7 @@ export class MemberEditComponent implements OnInit {
   member: Member;
   user: User;
   //what this allows us to do is access our browser events and the browser events that we want to access is the window:beforeunload.
-  // 
+  //
   @HostListener('window:beforeunload', ['$event']) unloadNotification($event: any){
     if(this.editForm.dirty){
       $event.returnValue = true;
@@ -43,8 +43,9 @@ export class MemberEditComponent implements OnInit {
   }
 
   updateMember(){
-    console.log(this.member);
-    this.toastr.success('Profile updated successfully')
-    this.editForm.reset(this.member);
+    this.memberService.updateMember(this.member).subscribe(() => {
+      this.toastr.success('Profile updated successfully')
+      this.editForm.reset(this.member);
+    })
   }
 }
