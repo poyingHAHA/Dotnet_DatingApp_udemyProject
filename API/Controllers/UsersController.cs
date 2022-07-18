@@ -38,6 +38,8 @@ namespace API.Controllers
     [HttpGet("{username}")]
     public async Task<ActionResult<MemberDto>> GetUser(string username)
     {
+      // Surely it's better to go and get just the properties we need from the database 
+      // and then at the database level passes back DTO rather than getting the entity and then converting it into a DTO.
       var user = await _userRepository.GetUserByUsernameAsync(username);
 
       return _mapper.Map<MemberDto>(user);
