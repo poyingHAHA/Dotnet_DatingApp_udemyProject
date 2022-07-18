@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 using API.Data;
 using API.DTOs;
 using API.Entities;
+using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using Microsoft.EntityFrameworkCore;
 
 namespace API.Repositories.Impl
@@ -12,10 +14,12 @@ namespace API.Repositories.Impl
   public class UserRepository : IUserRepository
   {
     private readonly DataContext _context;
+    private readonly IMapper _mapper;
 
-    public UserRepository(DataContext context)
+    public UserRepository(DataContext context, IMapper mapper)
     {
       _context = context;
+      _mapper = mapper;
     }
 
     public async Task<AppUser> GetUserByIdAsync(int id)
@@ -52,22 +56,18 @@ namespace API.Repositories.Impl
       // Supposing we didn't want to use auto mapper
       return await _context.Users
             .Where(x => x.UserName == username)
-            .Select(user => new MemberDto
-            {
-              // inside here we would start manually mapping all the properties.
-              // Now, in this select statement, what we would do is we would then start manually mapping the properties
-              // that we need to select from our database that we're going to put inside and return for our member data.
-              Id = user.Id,
-              Username = user.UserName
-              // Now we've got about 20 properties in here, so I'm not going to go through the whole thing and we don't need to go through the whole thing because auto mapper helps us out here.
-              // Auto Mapper gives us the equivalent of doing this for every single property and it allows us to project
-              // inside our repository and it's only going to select the properties that we actually need.
-            }).SingleOrDefaultAsync(); // So what we'll do is we'll say SingleOrDefaultAsync, and then this goes to our database. This is where we execute the query.
+            .ProjectTo<MemberDto>(_mapper.ConfigurationProvider) //And then what we can do is say mapper and we can pass in the configuration provider so it can go and get the configuration that we provided in our auto mapper profiles here and then what we can do, because now we've completed this functionality and now what we can do is go and see if we've made any improvements.
+            // We're going to see if this particular tactic of projecting makes us more efficient in our database query.
+            // So what we'll do is we'll go back to our users controller and where we're getting the user. Instead of saying get user by username, we're going to say GetMemberAsync andWe don't need to map inside our controller..
+            .SingleOrDefaultAsync(); // So what we'll do is we'll say SingleOrDefaultAsync, and then this goes to our database. This is where we execute the query.
     }
 
-    public Task<IEnumerable<MemberDto>> GetMembersAsync()
+    public async Task<IEnumerable<MemberDto>> GetMembersAsync()
     {
-      throw new NotImplementedException();
+      // When we use projection, we don't actually need to include because the entity framework is going to work out the correct query to join the table and get what we need from a database so this can be more efficient way of doing things.
+      return await _context.Users
+          .ProjectTo<MemberDto>(_mapper.ConfigurationProvider)
+          .ToListAsync();
     }
     
   }

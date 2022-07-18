@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using API.DTOs;
 using API.Entities;
+using API.Extensions;
 using AutoMapper;
 
 namespace API.Helpers
@@ -16,11 +17,13 @@ namespace API.Helpers
     {
         // Now what we specify in here is where we want to map from and where we want to map to.
         CreateMap<AppUser, MemberDto>()
-            .ForMember(dest => dest.PhotoUrl, opt => opt.MapFrom(src => src.Photos.FirstOrDefault(x => x.IsMain).Url));
-        // What we also need is a map from our photo DTO or from our photo entity to our photo DTO, and that's
+            .ForMember(dest => dest.PhotoUrl, opt => opt.MapFrom(src => src.Photos.FirstOrDefault(x => x.IsMain).Url))
+            .ForMember(dest => dest.Age, opt => opt.MapFrom(src => src.DateOfBirth.CalculateAge()));
+            // So this is our new mapping configuration and let's see if this has made any difference.
+            // So we head back to Postman once again. We'll just send this request again and we'll go back to our terminal and scroll down to the bottom and
+            // take a look at our query.
+            // So what we're doing now is we've made our query a bit more efficient. We're not getting all of the properties. I can't promise you we've made too much difference by doing what we're doing here, but it is an improvement.
         CreateMap<Photo, PhotoDto>();
-        // What we also need to do, because we're going to be adding this as a dependency that we can inject,
-        // we need to add this to our application service extensions.
     }
   }
 }

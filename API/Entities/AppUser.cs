@@ -23,11 +23,14 @@ namespace API.Entities
         public string Country { get; set; }
         public ICollection<Photo> Photos { get; set; }
         
-        // please don't be creative on what we call this method because the Get in front of Age is pretty important for what we're going to do later.
-        // Now if auto mapper comes across a property where we get, it's going to run the code inside here to populate the name of the other side of this gets.
-        public int GetAge()
-        {
-            return DateOfBirth.CalculateAge();
-        }
+        // In order for Mapper to go in, retrieve this, it's got to go and get the appUser.
+        // So we're kind of defeating the purpose of what we're doing here by doing it this way.
+        // So what we're going to do is not use this getAge methods to go and get the age.
+        // because it's not particularly efficient.
+        // public int GetAge()
+        // {
+        //     return DateOfBirth.CalculateAge();
+        // }
+        // But what we'll do is we'll go to our automatic profile and we'll add another property and say ForMember
     }
 }
