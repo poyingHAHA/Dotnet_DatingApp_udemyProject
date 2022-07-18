@@ -24,6 +24,7 @@ namespace API.Helpers
             // take a look at our query.
             // So what we're doing now is we've made our query a bit more efficient. We're not getting all of the properties. I can't promise you we've made too much difference by doing what we're doing here, but it is an improvement.
         CreateMap<Photo, PhotoDto>();
+        CreateMap<MemberUpdateDto, AppUser>();
     }
   }
 }
