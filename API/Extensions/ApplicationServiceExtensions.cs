@@ -21,6 +21,7 @@ namespace API.Extensions
         )
         {
             services.Configure<CloudinarySettings>(config.GetSection("CloudinarySettings"));
+            services.AddScoped<IPhotoService, PhotoService>();
             services.AddScoped<ITokenService, TokenService>();
             services.AddScoped<IUserRepository, UserRepository>();
             // Now we only have a single project, so we only have a single assembly of where these can be created.
