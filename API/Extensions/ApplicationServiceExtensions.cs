@@ -9,6 +9,7 @@ using API.Repositories.Impl;
 using API.Services;
 using API.Services.Impl;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace API.Extensions
 {
@@ -19,6 +20,7 @@ namespace API.Extensions
             IConfiguration config
         )
         {
+            services.Configure<CloudinarySettings>(config.GetSection("CloudinarySettings"));
             services.AddScoped<ITokenService, TokenService>();
             services.AddScoped<IUserRepository, UserRepository>();
             // Now we only have a single project, so we only have a single assembly of where these can be created.
