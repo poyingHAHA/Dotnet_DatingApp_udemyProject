@@ -26,7 +26,7 @@ export class RegisterComponent implements OnInit {
       // And inside each of these form controls, what we can do is we could give it a starting value, we could give it an initial value.
       // And then what we can add, the next parameter is our validation options.
       // And what we can specify here is validators and then we can choose from the out-of-box validators that Angular provides.
-      username: new FormControl('Hello', Validators.required),
+      username: new FormControl('', Validators.required),
       // And if we wanted to add two validators then we would put them inside an array.
       password: new FormControl('', [Validators.required, Validators.minLength(4), Validators.maxLength(8)]),
       // And then we'll need to add a custom validator so that we can compare the password field with the confirmpassword field.
