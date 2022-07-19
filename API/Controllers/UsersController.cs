@@ -93,5 +93,28 @@ namespace API.Controllers
 
       return BadRequest("Problem Adding Photo");
     }
+
+    [HttpPut("set-main-photo/{photoId}")]
+    public async Task<ActionResult> SetMainPhoto(int photoId)
+    {
+      // We can trust the information inside the token. 
+      // There's no trickery going on there because our servers signed the token.
+      var user = await _userRepository.GetUserByUsernameAsync(User.GetUsername());
+
+      // this is not asynchronous because we've already got the user in memory at this point, so we're not go to database now.
+      // 
+      var photo = user.Photos.FirstOrDefault(x => x.Id == photoId);
+
+      if(photo.IsMain) return BadRequest("This is already your main photo");
+
+      var currentMain = user.Photos.FirstOrDefault(x => x.IsMain);
+
+      if(currentMain != null) currentMain.IsMain = false;
+      photo.IsMain = true;
+
+      if(await _userRepository.SaveAllSync()) return NoContent();
+
+      return BadRequest("Fail to set main photo");
+    }
   }
 }
