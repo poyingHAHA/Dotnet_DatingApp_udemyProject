@@ -23,9 +23,9 @@ namespace API.Helpers
       // Now if the user sent up a token and we've authenticated the user, then this is going to be true.
       if(!resultContext.HttpContext.User.Identity.IsAuthenticated) return;
 
-      var username = resultContext.HttpContext.User.GetUsername();
+      var userId = resultContext.HttpContext.User.GetUserId();
       var repo = resultContext.HttpContext.RequestServices.GetService<IUserRepository>();
-      var user = await repo.GetUserByUsernameAsync(username);
+      var user = await repo.GetUserByIdAsync(userId);
       user.LastActive = DateTime.Now;
       await repo.SaveAllSync();
     }
