@@ -65,13 +65,15 @@ namespace API.Repositories.Impl
 
     public async Task<PagedList<MemberDto>> GetMembersAsync(UserParams userParams)
     {
-      // When we use projection, we don't actually need to include because 
-      // the entity framework is going to work out the correct query to join the table and get what we need from a database so this can be more efficient way of doing things.
-      var query = _context.Users
-            .ProjectTo<MemberDto>(_mapper.ConfigurationProvider)
-            .AsNoTracking();
-      
-      return await PagedList<MemberDto>.CreateAsync(query, userParams.PageNumber, userParams.PageSize);
+      var query = _context.Users.AsQueryable();
+
+      query = query.Where(u => u.UserName != userParams.CurrentUsername);
+      query = query.Where(u => u.Gender == userParams.Gender);
+
+      return await PagedList<MemberDto>.CreateAsync(
+        query.ProjectTo<MemberDto>(_mapper.ConfigurationProvider).AsNoTracking(),
+        userParams.PageNumber, userParams.PageSize
+      );
     }
   }
 }
