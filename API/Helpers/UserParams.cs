@@ -12,6 +12,8 @@ namespace API.Helpers
         public string CurrentUsername { get; set; }
         public string Gender { get; set; }
         private int _pageSize = 10;
+        public int MinAge { get; set;} = 18;
+        public int MaxAge { get; set; } = 150;
 
         public int PageSize
         {
