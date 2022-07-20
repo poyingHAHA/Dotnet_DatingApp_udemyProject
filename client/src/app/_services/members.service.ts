@@ -64,9 +64,14 @@ export class MembersService {
   }
 
   getMember(username: string) {
-    const member = this.members.find(x => x.username === username);
-    if(member !== undefined) return of(member);
-    // And obviously if we don't have the member, then we're gonna go and make our API call.
+    // console.log(this.memberCache.values())
+    const member = [...this.memberCache.values()]
+      .reduce((preArr, curArr) => preArr.concat(curArr.result), [])
+      .find((member: Member) => member.username === username);
+    // console.log(member)
+    if(member){
+      return of(member)
+    }
     return this.http.get<Member>(this.baseUrl + 'users/' + username)
   }
 
