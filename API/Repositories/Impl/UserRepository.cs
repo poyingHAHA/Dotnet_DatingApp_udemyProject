@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using API.Data;
 using API.DTOs;
 using API.Entities;
+using API.Helpers;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using Microsoft.EntityFrameworkCore;
@@ -62,13 +63,15 @@ namespace API.Repositories.Impl
             .SingleOrDefaultAsync(); // So what we'll do is we'll say SingleOrDefaultAsync, and then this goes to our database. This is where we execute the query.
     }
 
-    public async Task<IEnumerable<MemberDto>> GetMembersAsync()
+    public async Task<PagedList<MemberDto>> GetMembersAsync(UserParams userParams)
     {
-      // When we use projection, we don't actually need to include because the entity framework is going to work out the correct query to join the table and get what we need from a database so this can be more efficient way of doing things.
-      return await _context.Users
-          .ProjectTo<MemberDto>(_mapper.ConfigurationProvider)
-          .ToListAsync();
+      // When we use projection, we don't actually need to include because 
+      // the entity framework is going to work out the correct query to join the table and get what we need from a database so this can be more efficient way of doing things.
+      var query = _context.Users
+            .ProjectTo<MemberDto>(_mapper.ConfigurationProvider)
+            .AsNoTracking();
+      
+      return await PagedList<MemberDto>.CreateAsync(query, userParams.PageNumber, userParams.PageSize);
     }
-    
   }
 }
