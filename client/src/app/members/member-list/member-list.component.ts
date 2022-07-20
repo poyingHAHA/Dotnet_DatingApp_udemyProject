@@ -25,11 +25,16 @@ export class MemberListComponent implements OnInit {
   loadMembers(){
     this.memberService.getMembers(this.pageNumber, this.pageSize).subscribe(
       response => {
-        console.log(response)
         this.members = response.result;
         this.pagination = response.pagination
       }
     )
+  }
+
+  pageChanged(event: any){
+    console.log(event)
+    this.pageNumber = event.page;
+    this.loadMembers();
   }
 
 }
