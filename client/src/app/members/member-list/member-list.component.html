@@ -1,7 +1,7 @@
 <div class="row">
   <!-- And inside our member list, what we'll do is say member's dollar and we'll just use the async pipe
       so that we can subscribe to list observable. -->
-  <div *ngFor="let member of members$ | async" class="col-2">
+  <div *ngFor="let member of members" class="col-2">
     <app-member-card [member]="member"></app-member-card>
   </div>
 </div>
