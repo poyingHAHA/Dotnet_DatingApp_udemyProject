@@ -6,7 +6,6 @@ import { environment } from 'src/environments/environment';
 import { Member } from '../_models/member';
 import { PaginatedResult } from '../_models/pagination';
 import { UserParams } from '../_models/userParams';
-import { basename } from 'path';
 
 
 @Injectable({
