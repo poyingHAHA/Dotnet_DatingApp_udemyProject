@@ -46,7 +46,7 @@ namespace API.Repositories.Impl
         Age = user.DateOfBirth.CalculateAge(),
         PhotoUrl = user.Photos.FirstOrDefault(p => p.IsMain).Url,
         City = user.City,
-        Id=user.Id
+        Id = user.Id
       }).ToListAsync();
     }
 
