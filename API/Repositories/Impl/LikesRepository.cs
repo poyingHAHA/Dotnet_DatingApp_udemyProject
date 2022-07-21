@@ -36,7 +36,7 @@ namespace API.Repositories.Impl
 
       if(predicate == "likedBy")
       {
-        likes = likes.Where(like => like.SourceUserId == userId);
+        likes = likes.Where(like => like.LikedUserId == userId);
         users = likes.Select(like => like.SourceUser);
       }
 
