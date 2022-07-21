@@ -41,6 +41,14 @@ export class MembersService {
     return this.userParams;
   }
 
+  addLike(username: string){
+    return this.http.post(this.baseUrl + 'likes/' + username, {})
+  }
+
+  getLike(predicate: string){
+    return this.http.get(this.baseUrl + 'likes?' + predicate);
+  }
+
   getMembers(userParams: UserParams) {
     var response = this.memberCache.get(Object.values(userParams).join('-'));
     if(response){
